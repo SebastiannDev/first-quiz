@@ -36,6 +36,9 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+.vscode
+.pytest_cache
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
