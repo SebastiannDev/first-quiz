@@ -39,7 +39,7 @@ public class Question6Test {
     vm.insertQuarter();
 
     Drink drink = vm.pressButton("ScottCola");
-    
+
     assertTrue(drink.isFizzy());
     assertEquals(drink.getName(), "ScottCola");
   }
@@ -77,6 +77,18 @@ public class Question6Test {
     Drink drink = vm.pressButton("KarenTea");
     assertFalse(drink.isFizzy());
     assertEquals(drink.getName(), "KarenTea");
+  }
+
+  @Test
+  public void onlyHaveTwoQuarters() throws NotEnoughMoneyException, UnknownDrinkException {
+    VendingMachine vm = VendingMachineImpl.getInstance();
+
+    vm.insertQuarter();
+    vm.insertQuarter();
+
+    assertThrows(NotEnoughMoneyException.class, () -> {
+      vm.pressButton("KarenTea");
+    });
   }
 
   @Test
