@@ -27,6 +27,36 @@ public class VendingMachineImpl implements VendingMachine {
   @Override
   public Drink pressButton(String name)
       throws NotEnoughMoneyException, UnknownDrinkException {
-        return null;
+
+    if (coins_bag < 3) {
+      throw new NotEnoughMoneyException();
+    }
+
+    // Dictionary
+    HashMap<Integer, String> drinks = new HashMap<>();
+    drinks.put(3, "ScottCola");
+    drinks.put(4, "KarenTea");
+
+    if (drinks.containsValue(name)) {
+      return buy_drink(coins_bag, name);
+    }
+    
+    throw new UnknownDrinkException();
   }
+  
+  private Drink buy_drink(int coins, String name) throws NotEnoughMoneyException {
+    System.out.println(coins_bag + " " + name);
+    if (coins >= 3 && name.equals("ScottCola")) {
+      coins_bag = 0;
+      return new DrinkImp("ScottCola", true);
+    }
+
+    if (coins >= 4 && name.equals("KarenTea")) {
+      coins_bag = 0;
+      return new DrinkImp("KarenTea", false);
+    }
+
+    throw new NotEnoughMoneyException();
+  }
+
 }
