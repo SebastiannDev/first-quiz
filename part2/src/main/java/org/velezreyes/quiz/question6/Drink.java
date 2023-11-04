@@ -8,12 +8,14 @@ public interface Drink {
 
 class DrinkImp implements Drink {
 
-  private String name = "";
-  private Boolean isFizzy = true;
+  private String name;
+  private Boolean isFizzy;
+  private Integer price;
 
-  public DrinkImp(String name, Boolean isFizzy){
+  public DrinkImp(String name, Boolean isFizzy, Integer price){
     this.name = name;
     this.isFizzy = isFizzy;
+    this.price = price;
   }
 
   @Override
@@ -24,6 +26,10 @@ class DrinkImp implements Drink {
   @Override
   public boolean isFizzy() {
     return this.isFizzy;
+  }
+
+  public Integer getPrice(){
+    return this.price;
   }
 
 }

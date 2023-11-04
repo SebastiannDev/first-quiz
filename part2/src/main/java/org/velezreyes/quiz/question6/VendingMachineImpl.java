@@ -1,10 +1,11 @@
 package org.velezreyes.quiz.question6;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class VendingMachineImpl implements VendingMachine {
 
-  // === variables and instances ===
+  // === variables & instances ===
   private static VendingMachine vm;
   private static int coins_bag = 0;
 
@@ -24,39 +25,39 @@ public class VendingMachineImpl implements VendingMachine {
     coins_bag++;
   }
 
+  /**
+   * Can add more items to HashMap to validate if can buy, the key is the name of
+   * the drink and the Value is used for return the drink
+   * 
+   * @param name accept name of drink wish get.
+   */
   @Override
-  public Drink pressButton(String name)
-      throws NotEnoughMoneyException, UnknownDrinkException {
+  public Drink pressButton(String name) throws NotEnoughMoneyException, UnknownDrinkException {
 
     if (coins_bag < 3) {
       throw new NotEnoughMoneyException();
     }
 
-    // Dictionary
-    HashMap<Integer, String> drinks = new HashMap<>();
-    drinks.put(3, "ScottCola");
-    drinks.put(4, "KarenTea");
+    HashMap<String, DrinkImp> drinks = new HashMap<>();
 
-    if (drinks.containsValue(name)) {
-      return buy_drink(coins_bag, name);
-    }
-    
-    throw new UnknownDrinkException();
-  }
-  
-  private Drink buy_drink(int coins, String name) throws NotEnoughMoneyException {
-    System.out.println(coins_bag + " " + name);
-    if (coins >= 3 && name.equals("ScottCola")) {
-      coins_bag = 0;
-      return new DrinkImp("ScottCola", true);
+    drinks.put("ScottCola", new DrinkImp("ScottCola", true, 3));
+    drinks.put("KarenTea", new DrinkImp("KarenTea", false, 4));
+
+    if (!drinks.containsKey(name)) {
+      throw new UnknownDrinkException();
     }
 
-    if (coins >= 4 && name.equals("KarenTea")) {
-      coins_bag = 0;
-      return new DrinkImp("KarenTea", false);
+    for (Map.Entry<String, DrinkImp> drink_item : drinks.entrySet()) {
+
+      Integer price_item = drink_item.getValue().getPrice();
+      String name_item = drink_item.getKey();
+
+      if (coins_bag >= price_item && name_item.equals(name)) {
+        coins_bag = 0;
+        return drink_item.getValue();
+      }
     }
 
     throw new NotEnoughMoneyException();
   }
-
 }
